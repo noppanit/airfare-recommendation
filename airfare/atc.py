@@ -3,7 +3,7 @@ from py2neo import Graph, Path, Relationship
 import csv
 import os
 
-graph = Graph('http://neo4j:b4402695@localhost:7474/db/data/')
+graph = Graph('http://neo4j:neo4j@localhost:7474/db/data/')
 
 def find_city(city_id):
     results = graph.cypher.execute("MATCH (city:City {city_id: '%s'} ) RETURN city" % city_id)
