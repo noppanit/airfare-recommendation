@@ -12,6 +12,8 @@ with open('data/domestic-flights.csv', 'rt') as csv_file:
 
     for idx, route in enumerate(routes):
         if idx != 0:
+            year = route[2]
+            quarter = route[3]
             from_city_id_1 = route[4]
             to_city_id_1 = route[5]
 
@@ -23,5 +25,5 @@ with open('data/domestic-flights.csv', 'rt') as csv_file:
             from_node = create_unique_city(from_city_id_1, from_city)
             to_node = create_unique_city(to_city_id_1, to_city)
 
-            create_flight_details(fm=from_node, to=to_node, miles=miles, fare=fare)
+            create_flight_details(fm=from_node, to=to_node, miles=miles, fare=fare, year=year, quarter=quarter)
 

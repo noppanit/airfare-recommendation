@@ -21,19 +21,19 @@ def create_unique_city(city_id, city_name):
 def delete_all(env=os.environ):
     graph.cypher.execute('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r')
 
-def create_flight_details(fm, to, miles, fare):
-    from_city_to_city = Relationship(fm, "FLY", to, miles=miles, fare=fare)
+def create_flight_details(fm, to, miles, fare, year, quarter):
+    from_city_to_city = Relationship(fm, "FLY", to, miles=miles, fare=fare, year=year, quarter=quarter)
     graph.create(from_city_to_city)
 
 def find_routes(city_id):
-    results = graph.cypher.execute("MATCH (city {city_id: '%s'} )-[r]-(to_city) RETURN r" % city_id)
+    results = graph.cypher.execute("MATCH (city {city_id: '%s'} )-[r]->(to_city) WHERE r.year = '2014' and r.quarter = '1' RETURN r" % city_id)
     routes = [result['r'] for result in results]
     
     if len(routes) > 0:
         start_node = routes[0].start_node
         fm = {'city_id': start_node['city_id'], 'name': start_node['name']}
         
-        return fm, [{'destination': {'city_id': route.end_node['city_id'], 'name': route.end_node['name'], 'miles': route['miles'], 'fare': route['fare']} } for route in routes]
+        return fm, [{'destination': {'city_id': route.end_node['city_id'], 'name': route.end_node['name'], 'miles': route['miles'], 'fare': route['fare'], 'year': route['year'], 'quarter': route['quarter']} } for route in routes]
     
     return None
 

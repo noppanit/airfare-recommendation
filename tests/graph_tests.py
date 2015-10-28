@@ -22,7 +22,7 @@ class GraphTests(GraphTestContext):
         newyork = create_unique_city('1', 'New York')
         boston = create_unique_city('2', 'Boston')
 
-        create_flight_details(fm=newyork, to=boston, miles=1000, fare=100)
+        create_flight_details(fm=newyork, to=boston, miles=1000, fare=100, year=2015, quarter=1)
 
         fm, routes = find_routes('1')
         route = routes[0]
@@ -31,6 +31,9 @@ class GraphTests(GraphTestContext):
         self.assertEquals('New York', fm['name'])
         self.assertEquals(100, route['destination']['fare'])
         self.assertEquals(1000, route['destination']['miles'])
+        self.assertEquals(2015, route['destination']['year'])
+        self.assertEquals(1, route['destination']['quarter'])
+        
 
     def test_get_cities(self):
         newyork = create_unique_city('1', 'New York')
